@@ -18,11 +18,11 @@ public class Result<T> {
     /**
      * 成功标识
      */
-    public final static int SUCCESS_CODE = 0;
+    public final static int SUCCESS_CODE = 200;
     /**
      * 失败标识
      */
-    public final static int FAIL_CODE = -1;
+    public final static int FAIL_CODE = 500;
 
     @ApiModelProperty(value = "结果标识")
     private int code;
@@ -33,14 +33,14 @@ public class Result<T> {
     @ApiModelProperty(value = "结果说明")
     private String msg;
 
-    @ApiModelProperty(value = "响应时间")
+    @ApiModelProperty(value = "当前时间")
     private String time;
 
     public Result(int code, T data, String msg) {
         this.code = code;
         this.data = data;
         this.msg = msg;
-        this.time = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+        this.time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
     }
 
     public static <E> Result<E> success(E data, String msg) {

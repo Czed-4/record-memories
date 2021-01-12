@@ -18,6 +18,11 @@
             <artifactId>record-entity</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>top.github.czed</groupId>
+            <artifactId>record-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

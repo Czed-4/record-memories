@@ -1,7 +1,7 @@
 package top.czed.record.config;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * @Author Czed
