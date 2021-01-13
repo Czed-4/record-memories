@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Data
 @ApiModel("用户信息表")
-@Table(name = "m_user")
+@Table(name = "u_user")
 public class User {
 
     @Id

@@ -1,4 +1,4 @@
-package top.czed.record.config;
+package top.czed.record.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

@@ -12,6 +12,8 @@ import top.czed.record.commons.Result;
 import top.czed.record.entity.User;
 import top.czed.record.service.UserService;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * @Author Czed
  * @Date 2021-1-12
@@ -19,15 +21,15 @@ import top.czed.record.service.UserService;
  * @Version 1.0
  */
 @RestController
-@Api(value = "user",tags = "用户管理")
-public class UserController {
+@Api(value = "user", tags = "用户管理")
+public class LoginController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping("login")
     @ApiOperation("用户登录")
-    public Result<User> login(@RequestBody @ApiParam(required = true) User user) {
+    public Result<User> login(@RequestBody @ApiParam(required = true) User user, HttpSession session) {
         String username = user.getUsername();
         String password = user.getPassword();
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
@@ -37,6 +39,7 @@ public class UserController {
         if (result == null) {
             return Result.fail("密码错误!!!");
         }
+        session.setAttribute("user", result);
         return Result.success(result);
     }
 
