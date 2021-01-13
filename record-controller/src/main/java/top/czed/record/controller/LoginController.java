@@ -39,7 +39,7 @@ public class LoginController {
         if (result == null) {
             return Result.fail("密码错误!!!");
         }
-        session.setAttribute("user", result);
+        result.setPassword(null);
         return Result.success(result);
     }
 
