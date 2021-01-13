@@ -12,8 +12,6 @@ import top.czed.record.commons.Result;
 import top.czed.record.entity.User;
 import top.czed.record.service.UserService;
 
-import javax.servlet.http.HttpSession;
-
 /**
  * @Author Czed
  * @Date 2021-1-12
@@ -21,7 +19,7 @@ import javax.servlet.http.HttpSession;
  * @Version 1.0
  */
 @RestController
-@Api(value = "user", tags = "用户管理")
+@Api(tags = "用户管理")
 public class LoginController {
 
     @Autowired
@@ -29,15 +27,15 @@ public class LoginController {
 
     @PostMapping("login")
     @ApiOperation("用户登录")
-    public Result<User> login(@RequestBody @ApiParam(required = true) User user, HttpSession session) {
+    public Result<User> login(@RequestBody @ApiParam(required = true) User user) {
         String username = user.getUsername();
         String password = user.getPassword();
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-            return Result.fail("账号密码不能为空!!!");
+            return Result.fail("账号密码不能为空");
         }
         User result = userService.login(username, password);
         if (result == null) {
-            return Result.fail("密码错误!!!");
+            return Result.fail("账号或密码错误");
         }
         result.setPassword(null);
         return Result.success(result);
