@@ -19,7 +19,7 @@ import top.czed.record.service.UserService;
  * @Version 1.0
  */
 @RestController
-@Api(tags = "用户管理")
+@Api(tags = "登录控制器")
 public class LoginController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class LoginController {
             return Result.fail("账号或密码错误");
         }
         result.setPassword(null);
-        return Result.success(result);
+        return Result.success(result,"登陆成功");
     }
 
 }
