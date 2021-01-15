@@ -1,6 +1,7 @@
 package top.czed.record.service;
 
 import com.github.pagehelper.PageInfo;
+import top.czed.record.bo.MemoryBO;
 import top.czed.record.entity.Memory;
 
 /**
@@ -21,5 +22,29 @@ public interface MemoryService {
      * @return 全部查询结果
      */
     PageInfo<Memory> queryAllMemory(String userId, String type, Integer current, Integer size);
+
+    /**
+     * 新增当前用户记忆
+     *
+     * @param memoryBO 记忆参数
+     * @return 新增结果
+     */
+    Memory addMemory(MemoryBO memoryBO);
+
+    /**
+     * 删除、修改当前用户记忆
+     *
+     * @param memoryBO 记忆参数
+     * @return 删除、修改结果
+     */
+    Memory deleteOrUpdateMemory(MemoryBO memoryBO);
+
+    /**
+     * 查询当前用户记忆
+     *
+     * @param id 记忆id
+     * @return 查询结果
+     */
+    Memory queryMemory(String id);
 
 }

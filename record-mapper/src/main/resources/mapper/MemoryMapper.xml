@@ -10,7 +10,9 @@
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="type" jdbcType="CHAR" property="type" />
+    <result column="place" jdbcType="VARCHAR" property="place" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="is_delete" jdbcType="CHAR" property="isDelete" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>

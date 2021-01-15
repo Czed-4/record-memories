@@ -1,4 +1,4 @@
-package top.czed.record.commons;
+package top.czed.record;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;

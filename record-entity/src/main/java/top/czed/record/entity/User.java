@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * @Version 1.0
  */
 @Data
-@ApiModel("用户信息表")
+@ApiModel("用户信息实体")
 @Table(name = "u_user")
 public class User {
 
@@ -86,4 +86,5 @@ public class User {
     @Column(name = "update_time")
     @ApiModelProperty("更新时间")
     private Date updateTime;
+
 }
