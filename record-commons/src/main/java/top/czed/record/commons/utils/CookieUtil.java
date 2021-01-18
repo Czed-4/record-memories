@@ -187,14 +187,6 @@ public class CookieUtil {
         if (cookieMaxAge > 0) {
             cookie.setMaxAge(cookieMaxAge);
         }
-        if (request != null) {
-            // 设置域名的Cookie
-            String localhost = "localhost";
-            String domainName = getDomainName(request);
-            if (!localhost.equals(domainName)) {
-                cookie.setDomain(domainName);
-            }
-        }
         cookie.setPath("/");
         response.addCookie(cookie);
     }
