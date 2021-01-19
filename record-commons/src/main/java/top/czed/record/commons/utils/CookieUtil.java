@@ -174,7 +174,7 @@ public class CookieUtil {
             if (StringUtils.isBlank(cookieValue)) {
                 cookieValue = "";
             } else if (isEncode) {
-                cookieValue = URLEncoder.encode(cookieValue, "utf-8");
+                cookieValue = URLEncoder.encode(cookieValue, "UTF-8");
             }
             set(request, response, cookieKey, cookieValue, cookieMaxAge);
         } catch (Exception e) {
