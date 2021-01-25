@@ -17,11 +17,12 @@ public interface MemoryService {
      *
      * @param userId  用户id
      * @param type    记忆类型
+     * @param keyword 关键词
      * @param current 当前页数
      * @param size    每页数量
      * @return 全部查询结果
      */
-    PageInfo<Memory> queryAllMemory(String userId, String type, Integer current, Integer size);
+    PageInfo<Memory> queryAllMemory(String userId, String type, String keyword, Integer current, Integer size);
 
     /**
      * 新增当前用户记忆
@@ -46,5 +47,6 @@ public interface MemoryService {
      * @return 查询结果
      */
     Memory queryMemory(String id);
+
 
 }

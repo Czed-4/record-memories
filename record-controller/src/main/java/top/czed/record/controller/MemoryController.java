@@ -13,6 +13,8 @@ import top.czed.record.commons.Result;
 import top.czed.record.entity.Memory;
 import top.czed.record.service.MemoryService;
 
+import java.util.Map;
+
 /**
  * @Author Czed
  * @Date 2021-1-14
@@ -29,15 +31,14 @@ public class MemoryController {
     private MemoryService memoryService;
 
     @PostMapping("queryAll")
-    @ApiOperation("查询全部记忆")
+    @ApiOperation("分页查询记忆")
     public Result<PageInfo<Memory>> queryAllMemory(@RequestBody @Validated PageParameter<Memory> parameter) {
         Memory entity = parameter.getEntity();
-        String type = entity.getType();
-        String userId = entity.getUserId();
-        if (StringUtils.isBlank(userId)) {
+        if (StringUtils.isBlank(entity.getUserId())) {
             return Result.fail("用户id不可为空");
         }
-        PageInfo<Memory> pageInfo = memoryService.queryAllMemory(userId, type, parameter.getCurrent(), parameter.getSize());
+        Map<String, String> exParameter = parameter.getExParameter();
+        PageInfo<Memory> pageInfo = memoryService.queryAllMemory(entity.getUserId(), entity.getType(), exParameter.get("keyword"), parameter.getCurrent(), parameter.getSize());
         long total = pageInfo.getTotal();
         if (total > 0) {
             return Result.success(pageInfo);
@@ -68,7 +69,7 @@ public class MemoryController {
     }
 
     @PostMapping("edit")
-    @ApiOperation("删除、修改记忆")
+    @ApiOperation("编辑记忆")
     public Result<Memory> editMemory(@RequestBody @Validated MemoryBO bo) {
         String userId = bo.getUserId();
         if (StringUtils.isBlank(userId)) {

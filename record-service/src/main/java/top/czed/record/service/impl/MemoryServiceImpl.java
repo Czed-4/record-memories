@@ -32,7 +32,7 @@ public class MemoryServiceImpl implements MemoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS)
-    public PageInfo<Memory> queryAllMemory(String userId, String type, Integer current, Integer size) {
+    public PageInfo<Memory> queryAllMemory(String userId, String type, String keyword, Integer current, Integer size) {
         Example example = new Example(Memory.class);
         example.orderBy("createTime").desc();
         Example.Criteria criteria = example.createCriteria();
@@ -40,6 +40,11 @@ public class MemoryServiceImpl implements MemoryService {
                 .andEqualTo("isDelete", "N");
         if (StringUtils.isNotBlank(type)) {
             criteria.andEqualTo("type", type);
+        }
+        if (StringUtils.isNotBlank(keyword)) {
+            criteria.andLike("title", keyword)
+                    .orLike("place", keyword)
+                    .orLike("detail", keyword);
         }
         PageHelper.startPage(current, size);
         List<Memory> memories = memoryMapper.selectByExample(example);
