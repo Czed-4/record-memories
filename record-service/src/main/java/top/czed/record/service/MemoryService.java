@@ -37,7 +37,7 @@ public interface MemoryService {
      * @param memoryBO 记忆参数
      * @return 删除、修改结果
      */
-    Memory deleteOrUpdateMemory(MemoryBO memoryBO);
+    Memory editMemory(MemoryBO memoryBO);
 
     /**
      * 查询当前用户记忆

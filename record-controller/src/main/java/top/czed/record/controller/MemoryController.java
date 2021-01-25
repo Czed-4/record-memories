@@ -67,14 +67,14 @@ public class MemoryController {
         return Result.success(memory, "添加记忆成功");
     }
 
-    @PostMapping({"delete", "update"})
+    @PostMapping("edit")
     @ApiOperation("删除、修改记忆")
-    public Result<Memory> deleteOrUpdateMemory(@RequestBody @Validated MemoryBO bo) {
+    public Result<Memory> editMemory(@RequestBody @Validated MemoryBO bo) {
         String userId = bo.getUserId();
         if (StringUtils.isBlank(userId)) {
             return Result.fail("用户id不可为空");
         }
-        Memory memory = memoryService.deleteOrUpdateMemory(bo);
+        Memory memory = memoryService.editMemory(bo);
         String msg;
         if (memory == null) {
             msg = StringUtils.isBlank(bo.getIsDelete()) ? "修改记忆失败" : "删除记忆失败";
