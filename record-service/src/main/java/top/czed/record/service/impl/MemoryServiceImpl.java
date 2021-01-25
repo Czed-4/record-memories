@@ -42,9 +42,10 @@ public class MemoryServiceImpl implements MemoryService {
             criteria.andEqualTo("type", type);
         }
         if (StringUtils.isNotBlank(keyword)) {
-            criteria.andLike("title", keyword)
-                    .orLike("place", keyword)
-                    .orLike("detail", keyword);
+            example.and(example.createCriteria()
+                    .orLike("title", "%" + keyword + "%")
+                    .orLike("place", "%" + keyword + "%")
+                    .orLike("detail", "%" + keyword + "%"));
         }
         PageHelper.startPage(current, size);
         List<Memory> memories = memoryMapper.selectByExample(example);

@@ -39,11 +39,7 @@ public class MemoryController {
         }
         Map<String, String> exParameter = parameter.getExParameter();
         PageInfo<Memory> pageInfo = memoryService.queryAllMemory(entity.getUserId(), entity.getType(), exParameter.get("keyword"), parameter.getCurrent(), parameter.getSize());
-        long total = pageInfo.getTotal();
-        if (total > 0) {
-            return Result.success(pageInfo);
-        }
-        return Result.fail("查询结果为空");
+        return Result.success(pageInfo);
     }
 
     @PostMapping("add")
@@ -92,9 +88,6 @@ public class MemoryController {
             return Result.fail("记忆id不可为空");
         }
         Memory memory = memoryService.queryMemory(id);
-        if (memory == null) {
-            return Result.fail("查询结果为空");
-        }
         return Result.success(memory);
     }
 
