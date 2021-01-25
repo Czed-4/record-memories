@@ -51,41 +51,45 @@ public class MemoryController {
         }
         String url = bo.getUrl();
         if (StringUtils.isBlank(url)) {
-            return Result.fail("图片不能为空");
+            return Result.fail("图片不可为空");
         }
         String title = bo.getTitle();
         if (StringUtils.isBlank(title)) {
-            return Result.fail("标题不能为空");
+            return Result.fail("标题不可为空");
         }
         Memory memory = memoryService.addMemory(bo);
-        if (memory == null) {
-            return Result.fail("添加记忆失败");
-        }
         return Result.success(memory, "添加记忆成功");
     }
 
-    @PostMapping("edit")
-    @ApiOperation("编辑记忆")
+    @GetMapping("delete")
+    @ApiOperation("删除记忆")
+    public Result<Integer> deleteMemory(String id) {
+        if (StringUtils.isBlank(id)) {
+            return Result.fail("id不可为空");
+        }
+        int result = memoryService.deleteMemory(id);
+
+        return Result.success(result, "删除记忆成功");
+    }
+
+    @PostMapping("update")
+    @ApiOperation("修改记忆")
     public Result<Memory> editMemory(@RequestBody @Validated MemoryBO bo) {
-        String userId = bo.getUserId();
-        if (StringUtils.isBlank(userId)) {
+        if (StringUtils.isBlank(bo.getId())) {
+            return Result.fail("id不可为空");
+        }
+        if (StringUtils.isBlank(bo.getUserId())) {
             return Result.fail("用户id不可为空");
         }
-        Memory memory = memoryService.editMemory(bo);
-        String msg;
-        if (memory == null) {
-            msg = StringUtils.isBlank(bo.getIsDelete()) ? "修改记忆失败" : "删除记忆失败";
-            return Result.fail(msg);
-        }
-        msg = StringUtils.isBlank(bo.getIsDelete()) ? "修改记忆成功" : "删除记忆成功";
-        return Result.success(memory, msg);
+        Memory memory = memoryService.updateMemory(bo);
+        return Result.success(memory, "修改记忆成功");
     }
 
     @GetMapping("query")
     @ApiOperation("查询记忆")
     public Result<Memory> queryMemory(@RequestParam String id) {
         if (StringUtils.isBlank(id)) {
-            return Result.fail("记忆id不可为空");
+            return Result.fail("id不可为空");
         }
         Memory memory = memoryService.queryMemory(id);
         return Result.success(memory);

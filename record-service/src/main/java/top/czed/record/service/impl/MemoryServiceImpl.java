@@ -68,7 +68,19 @@ public class MemoryServiceImpl implements MemoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Memory editMemory(MemoryBO memoryBO) {
+    public int deleteMemory(String id) {
+        Memory entity = new Memory();
+        entity.setUpdateTime(new Date());
+        entity.setIsDelete("Y");
+        Example example = new Example(Memory.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("id", id);
+        return memoryMapper.updateByExampleSelective(entity,example);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public Memory updateMemory(MemoryBO memoryBO) {
         Memory entity = new Memory();
         BeanUtils.copyProperties(memoryBO, entity);
         entity.setUpdateTime(new Date());

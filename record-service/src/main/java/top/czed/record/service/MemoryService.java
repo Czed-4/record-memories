@@ -33,12 +33,20 @@ public interface MemoryService {
     Memory addMemory(MemoryBO memoryBO);
 
     /**
-     * 删除、修改当前用户记忆
+     * 删除记忆
+     *
+     * @param id 记忆id
+     * @return 删除条数
+     */
+    int deleteMemory(String id);
+
+    /**
+     * 修改当前用户记忆
      *
      * @param memoryBO 记忆参数
-     * @return 删除、修改结果
+     * @return 修改结果
      */
-    Memory editMemory(MemoryBO memoryBO);
+    Memory updateMemory(MemoryBO memoryBO);
 
     /**
      * 查询当前用户记忆
