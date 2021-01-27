@@ -35,7 +35,7 @@ public class MemoryController {
     public Result<PageInfo<Memory>> queryAllMemory(@RequestBody @Validated PageParameter<Memory> parameter) {
         Memory entity = parameter.getEntity();
         if (StringUtils.isBlank(entity.getUserId())) {
-            return Result.fail("用户id不可为空");
+            return Result.fail("用户id不能为空");
         }
         Map<String, String> exParameter = parameter.getExParameter();
         PageInfo<Memory> pageInfo = memoryService.queryAllMemory(entity.getUserId(), entity.getType(), exParameter.get("keyword"), parameter.getCurrent(), parameter.getSize());
@@ -47,15 +47,15 @@ public class MemoryController {
     public Result<Memory> addMemory(@RequestBody @Validated MemoryBO bo) {
         String userId = bo.getUserId();
         if (StringUtils.isBlank(userId)) {
-            return Result.fail("用户id不可为空");
+            return Result.fail("用户id不能为空");
         }
         String url = bo.getUrl();
         if (StringUtils.isBlank(url)) {
-            return Result.fail("图片不可为空");
+            return Result.fail("图片地址不能为空");
         }
         String title = bo.getTitle();
         if (StringUtils.isBlank(title)) {
-            return Result.fail("标题不可为空");
+            return Result.fail("标题不能为空");
         }
         Memory memory = memoryService.addMemory(bo);
         return Result.success(memory, "添加记忆成功");
@@ -76,10 +76,10 @@ public class MemoryController {
     @ApiOperation("修改记忆")
     public Result<Memory> editMemory(@RequestBody @Validated MemoryBO bo) {
         if (StringUtils.isBlank(bo.getId())) {
-            return Result.fail("id不可为空");
+            return Result.fail("id不能为空");
         }
         if (StringUtils.isBlank(bo.getUserId())) {
-            return Result.fail("用户id不可为空");
+            return Result.fail("用户id不能为空");
         }
         Memory memory = memoryService.updateMemory(bo);
         return Result.success(memory, "修改记忆成功");
@@ -89,7 +89,7 @@ public class MemoryController {
     @ApiOperation("查询记忆")
     public Result<Memory> queryMemory(@RequestParam String id) {
         if (StringUtils.isBlank(id)) {
-            return Result.fail("id不可为空");
+            return Result.fail("id不能为空");
         }
         Memory memory = memoryService.queryMemory(id);
         return Result.success(memory);
