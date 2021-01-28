@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import top.czed.record.bo.MemoryBO;
 import top.czed.record.commons.PageParameter;
 import top.czed.record.commons.Result;
@@ -93,6 +94,13 @@ public class MemoryController {
         }
         Memory memory = memoryService.queryMemory(id);
         return Result.success(memory);
+    }
+
+    @PostMapping("upload")
+    @ApiOperation("上传照片")
+    public Result<String> uploadPhoto(@RequestBody MultipartFile file, @RequestParam String userId) {
+        System.out.println(file);
+        return Result.success(null);
     }
 
 }

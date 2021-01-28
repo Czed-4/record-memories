@@ -27,7 +27,6 @@ public class CorsConfig {
         config.addAllowedMethod("*");
         // 设置放行URL
         config.addAllowedOrigin("http://localhost:8080");
-        config.addAllowedOrigin("http://localhost:8081");
         config.setMaxAge(18000L);
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
