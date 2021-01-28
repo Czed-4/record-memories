@@ -3,6 +3,7 @@ package top.czed.record.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,9 @@ import top.czed.record.commons.Result;
 import top.czed.record.entity.Memory;
 import top.czed.record.service.MemoryService;
 
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -27,6 +31,8 @@ import java.util.Map;
 @Validated
 @Api(tags = "记忆控制器")
 public class MemoryController {
+
+    public static final String MEMORY_LOCATION = "D:" + File.separator + "images" + File.separator + "memories";
 
     @Autowired
     private MemoryService memoryService;
@@ -98,9 +104,40 @@ public class MemoryController {
 
     @PostMapping("upload")
     @ApiOperation("上传照片")
-    public Result<String> uploadPhoto(@RequestBody MultipartFile file, @RequestParam String userId) {
-        System.out.println(file);
-        return Result.success(null);
+    public Result<String> uploadPhoto(@RequestParam String userId, @RequestBody MultipartFile file) throws IOException {
+        if (StringUtils.isBlank(userId)) {
+            return Result.fail("用户id不能为空");
+        }
+        if (file == null) {
+            return Result.fail("图片不能为空");
+        }
+        // 图片存储地址
+        String fileSpace = MEMORY_LOCATION + File.separator + userId;
+        // 文件名
+        String fileName = file.getOriginalFilename();
+        if (StringUtils.isBlank(fileName)) {
+            return Result.fail("文件名不能为空");
+        }
+        String[] split = fileName.split("\\.");
+        // 获取文件尾缀
+        String suffix = split[split.length - 1];
+        // 自定义新名称
+        String date = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String fileNewName = "memory-" + date + "." + suffix;
+        // 最终保存路径
+        String finalFileSpace = fileSpace + File.separator + fileNewName;
+        File outFile = new File(finalFileSpace);
+        if (!outFile.exists()) {
+            // 创建文件夹
+            outFile.getParentFile().mkdirs();
+        }
+        InputStream inputStream = file.getInputStream();
+        FileOutputStream fileOutputStream = new FileOutputStream(outFile);
+        IOUtils.copy(inputStream, fileOutputStream);
+        fileOutputStream.flush();
+        fileOutputStream.close();
+        String result = "http://localhost:8444" + finalFileSpace.substring(2);
+        return Result.success(result, "上传成功");
     }
 
 }
