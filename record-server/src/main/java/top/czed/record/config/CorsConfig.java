@@ -1,5 +1,6 @@
 package top.czed.record.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -15,6 +16,9 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class CorsConfig {
 
+    @Value("${paths.host.front}")
+    private String frontHost;
+
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -26,7 +30,7 @@ public class CorsConfig {
         // 设置请求方式
         config.addAllowedMethod("*");
         // 设置放行URL
-        config.addAllowedOrigin("http://localhost:8080");
+        config.addAllowedOrigin(frontHost);
         config.setMaxAge(18000L);
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

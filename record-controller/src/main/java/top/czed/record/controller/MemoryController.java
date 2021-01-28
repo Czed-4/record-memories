@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +33,10 @@ import java.util.Map;
 @Api(tags = "记忆控制器")
 public class MemoryController {
 
-    public static final String MEMORY_LOCATION = "D:" + File.separator + "images" + File.separator + "memories";
+    @Value("${paths.memory.location}")
+    public String memoryLocation;
+    @Value("${paths.host.back}")
+    private String backHost;
 
     @Autowired
     private MemoryService memoryService;
@@ -112,7 +116,7 @@ public class MemoryController {
             return Result.fail("图片不能为空");
         }
         // 图片存储地址
-        String fileSpace = MEMORY_LOCATION + File.separator + userId;
+        String fileSpace = memoryLocation + File.separator + userId;
         // 文件名
         String fileName = file.getOriginalFilename();
         if (StringUtils.isBlank(fileName)) {
@@ -136,7 +140,7 @@ public class MemoryController {
         IOUtils.copy(inputStream, fileOutputStream);
         fileOutputStream.flush();
         fileOutputStream.close();
-        String result = "http://localhost:8444" + finalFileSpace.substring(2);
+        String result = backHost + finalFileSpace.substring(2);
         return Result.success(result, "上传成功");
     }
 

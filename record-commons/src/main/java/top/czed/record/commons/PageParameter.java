@@ -29,6 +29,6 @@ public class PageParameter<T> {
     private Integer current = 1;
 
     @ApiModelProperty("扩展参数")
-    private Map<String, String> exParameter = new HashMap<>(4);
+    private Map<String, String> exParameter = new HashMap<>(16);
 
 }
