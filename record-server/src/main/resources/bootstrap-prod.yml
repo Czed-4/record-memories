@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: record-memories-prod
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 39.108.120.197:8848
+        namespace: fe2078f0-65cd-4e0c-89c4-478dc7dee8c9
+      config:
+        server-addr: 39.108.120.197:8848
+        namespace: fe2078f0-65cd-4e0c-89c4-478dc7dee8c9
+        file-extension: yaml
+        prefix: record-memories-prod
+
+paths:
+  resource:
+    # 图片请求路径
+    handler: /images/**
+    # 映射路径
+    location:
+  memory:
+    # 照片在服务器的存储路径
+    location:
+  host:
+    # 前端域名端口
+    front:
+    # 后端域名端口
+    back:
