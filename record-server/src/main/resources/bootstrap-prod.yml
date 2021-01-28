@@ -1,6 +1,6 @@
 spring:
   application:
-    name: record-memories-prod
+    name: record-memories
   cloud:
     nacos:
       discovery:
@@ -10,19 +10,19 @@ spring:
         server-addr: 39.108.120.197:8848
         namespace: fe2078f0-65cd-4e0c-89c4-478dc7dee8c9
         file-extension: yaml
-        prefix: record-memories-prod
+        prefix: record-memories
 
 paths:
   resource:
     # 图片请求路径
     handler: /images/**
     # 映射路径
-    location:
+    location: file:/usr/local/images
   memory:
     # 照片在服务器的存储路径
-    location:
+    location: /usr/local/images/memories
   host:
     # 前端域名端口
-    front:
+    front: http://czed.top:8044
     # 后端域名端口
-    back:
+    back: http://czed.top:8444
