@@ -10,7 +10,6 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
-    <!--<packaging>war</packaging>-->
 
     <groupId>top.github.czed</groupId>
     <artifactId>record-memories</artifactId>
