@@ -3,6 +3,8 @@ package top.czed.record;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -17,7 +19,7 @@ import java.net.UnknownHostException;
  */
 @Slf4j
 @SpringBootApplication
-public class RecordApplication {
+public class RecordApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) throws UnknownHostException {
         ConfigurableApplicationContext run = SpringApplication.run(RecordApplication.class, args);
@@ -30,6 +32,11 @@ public class RecordApplication {
                 env.getProperty("server.port"),
                 InetAddress.getLocalHost().getHostAddress(),
                 env.getProperty("server.port"));
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(this.getClass());
     }
 
 }
