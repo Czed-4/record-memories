@@ -14,14 +14,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
 
-    @Value("${paths.resource.handler}")
-    private String resourceHandler;
     @Value("${paths.resource.location}")
     private String resourceLocation;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(resourceHandler)
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/META-INF/resources/")
                 .addResourceLocations(resourceLocation);
     }
 
