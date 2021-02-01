@@ -14,8 +14,6 @@ spring:
 
 paths:
   resource:
-    # 图片请求路径
-    handler: /images/**
     # 映射路径
     location: file:/D:/images/
   memory:
