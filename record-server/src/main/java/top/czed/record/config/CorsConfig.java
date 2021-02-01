@@ -16,9 +16,6 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class CorsConfig {
 
-    @Value("${paths.host.front}")
-    private String frontHost;
-
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -30,7 +27,10 @@ public class CorsConfig {
         // 设置请求方式
         config.addAllowedMethod("*");
         // 设置放行URL
-        config.addAllowedOrigin(frontHost);
+        config.addAllowedOrigin("http://localhost");
+        config.addAllowedOrigin("http://localhost:8044");
+        config.addAllowedOrigin("http://czed.top");
+        config.addAllowedOrigin("http://czed.top:8044");
         config.setMaxAge(18000L);
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

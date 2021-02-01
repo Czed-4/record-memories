@@ -22,7 +22,5 @@ paths:
     # 照片在服务器的存储路径
     location: D:/images/memories
   host:
-    # 前端域名端口
-    front: http://localhost:8044
     # 后端域名端口
     back: http://localhost:8444
