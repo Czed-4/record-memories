@@ -140,7 +140,7 @@ public class MemoryController {
         IOUtils.copy(inputStream, fileOutputStream);
         fileOutputStream.flush();
         fileOutputStream.close();
-        String result = backHost + finalFileSpace.substring(2);
+        String result = backHost + File.separator + userId + File.separator + fileNewName;
         return Result.success(result, "上传成功");
     }
 
