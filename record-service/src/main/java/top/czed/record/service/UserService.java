@@ -11,12 +11,20 @@ import top.czed.record.entity.User;
 public interface UserService {
 
     /**
-     * 登入认证
+     * 登录
      *
      * @param username 账号
      * @param password 密码
-     * @return 登入用户信息
+     * @return 登录用户信息
      */
     User login(String username, String password);
+
+    /**
+     * 通过账号获取用户信息
+     *
+     * @param username 账号
+     * @return 用户信息
+     */
+    User getUserByName(String username);
 
 }
