@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: record-memories
+  servlet:
+    multipart:
+      max-request-size: 5242880
+      max-file-size: 5242880
+  redis:
+    host: czed.top
+    password: Chunzhen4.
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+    timeout: 10000
+    database: 4
+  datasource:
+    url: jdbc:mysql://czed.top:3306/memories-prod?serverTimezone=GMT%2B8&characterEncoding=utf8&useUnicode=true
+    username: root
+    password: Chunzhen4.
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 600000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall
+      use-global-data-source-stat: true
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      stat-view-servlet:
+        login-username: superadmin
+        login-password: Chunzhen4.
+        reset-enable: false
+        url-pattern: /druid/*
+      web-stat-filter:
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
+server:
+  port: 8444
+  servlet:
+    context-path: /
+
+paths:
+  resource:
+    # 映射路径
+    location: file:/usr/local/images/memories/
+  memory:
+    # 照片在服务器的存储路径
+    location: /usr/local/images/memories
+  host:
+    # 后端域名端口
+    back: http://czed.top:8444
