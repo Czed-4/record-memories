@@ -2,12 +2,12 @@ package top.czed.record.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 import top.czed.record.bo.MemoryBO;
 import top.czed.record.commons.utils.GenerateIdUtil;
@@ -38,10 +38,10 @@ public class MemoryServiceImpl implements MemoryService {
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId", userId)
                 .andEqualTo("isDelete", "N");
-        if (StringUtils.isNotBlank(type)) {
+        if (!StringUtils.isEmpty(type)) {
             criteria.andEqualTo("type", type);
         }
-        if (StringUtils.isNotBlank(keyword)) {
+        if (!StringUtils.isEmpty(keyword)) {
             example.and(example.createCriteria()
                     .orLike("title", "%" + keyword + "%")
                     .orLike("place", "%" + keyword + "%")

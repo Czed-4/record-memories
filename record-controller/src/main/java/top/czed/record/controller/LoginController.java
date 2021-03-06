@@ -2,13 +2,13 @@ package top.czed.record.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +38,7 @@ public class LoginController {
     public Result<User> login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
         String username = user.getUsername();
         String password = user.getPassword();
-        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
             return Result.fail("账号密码不能为空");
         }
         Subject subject = SecurityUtils.getSubject();
