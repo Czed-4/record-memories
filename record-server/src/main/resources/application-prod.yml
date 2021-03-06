@@ -15,7 +15,7 @@ spring:
         max-wait: -1
         max-idle: 8
     timeout: 10000
-    database: 4
+    database: 0
   datasource:
     url: jdbc:mysql://czed.top:3306/memories-prod?serverTimezone=GMT%2B8&characterEncoding=utf8&useUnicode=true
     username: root
@@ -48,8 +48,6 @@ spring:
 
 server:
   port: 8444
-  servlet:
-    context-path: /
 
 paths:
   resource:
