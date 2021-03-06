@@ -1,6 +1,6 @@
 package top.czed.record.commons.utils;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -171,7 +171,7 @@ public class CookieUtil {
      */
     private static void doSetCookie(HttpServletRequest request, HttpServletResponse response, String cookieKey, String cookieValue, int cookieMaxAge, boolean isEncode) {
         try {
-            if (StringUtils.isBlank(cookieValue)) {
+            if (StringUtils.isEmpty(cookieValue)) {
                 cookieValue = "";
             } else if (isEncode) {
                 cookieValue = URLEncoder.encode(cookieValue, "UTF-8");
@@ -203,7 +203,7 @@ public class CookieUtil {
      */
     private static void doSetCookie(HttpServletRequest request, HttpServletResponse response, String cookieKey, String cookieValue, int cookieMaxAge, String encodeType) {
         try {
-            if (StringUtils.isBlank(cookieValue)) {
+            if (StringUtils.isEmpty(cookieValue)) {
                 cookieValue = "";
             } else {
                 cookieValue = URLEncoder.encode(cookieValue, encodeType);
@@ -223,7 +223,7 @@ public class CookieUtil {
     private static String getDomainName(HttpServletRequest request) {
         String domainName;
         String serverName = request.getRequestURL().toString();
-        if (StringUtils.isBlank(serverName)) {
+        if (StringUtils.isEmpty(serverName)) {
             domainName = "";
         } else {
             serverName = serverName.toLowerCase();
@@ -244,7 +244,7 @@ public class CookieUtil {
             }
         }
         String mark = ":";
-        if (StringUtils.isNotBlank(domainName) && domainName.indexOf(mark) > 0) {
+        if (!StringUtils.isEmpty(domainName) && domainName.indexOf(mark) > 0) {
             String[] ary = domainName.split(mark);
             domainName = ary[0];
         }

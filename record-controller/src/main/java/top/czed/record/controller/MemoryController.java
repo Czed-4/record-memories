@@ -3,10 +3,10 @@ package top.czed.record.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +45,7 @@ public class MemoryController {
     @ApiOperation("分页查询记忆")
     public Result<PageInfo<Memory>> queryAllMemory(@RequestBody @Validated PageParameter<Memory> parameter) {
         Memory entity = parameter.getEntity();
-        if (StringUtils.isBlank(entity.getUserId())) {
+        if (StringUtils.isEmpty(entity.getUserId())) {
             return Result.fail("用户id不能为空");
         }
         Map<String, String> exParameter = parameter.getExParameter();
@@ -57,15 +57,15 @@ public class MemoryController {
     @ApiOperation("新增记忆")
     public Result<Memory> addMemory(@RequestBody @Validated MemoryBO bo) {
         String userId = bo.getUserId();
-        if (StringUtils.isBlank(userId)) {
+        if (StringUtils.isEmpty(userId)) {
             return Result.fail("用户id不能为空");
         }
         String url = bo.getUrl();
-        if (StringUtils.isBlank(url)) {
+        if (StringUtils.isEmpty(url)) {
             return Result.fail("图片地址不能为空");
         }
         String title = bo.getTitle();
-        if (StringUtils.isBlank(title)) {
+        if (StringUtils.isEmpty(title)) {
             return Result.fail("标题不能为空");
         }
         Memory memory = memoryService.addMemory(bo);
@@ -75,7 +75,7 @@ public class MemoryController {
     @GetMapping("delete")
     @ApiOperation("删除记忆")
     public Result<Integer> deleteMemory(String id) {
-        if (StringUtils.isBlank(id)) {
+        if (StringUtils.isEmpty(id)) {
             return Result.fail("id不可为空");
         }
         int result = memoryService.deleteMemory(id);
@@ -86,10 +86,10 @@ public class MemoryController {
     @PostMapping("update")
     @ApiOperation("修改记忆")
     public Result<Memory> editMemory(@RequestBody @Validated MemoryBO bo) {
-        if (StringUtils.isBlank(bo.getId())) {
+        if (StringUtils.isEmpty(bo.getId())) {
             return Result.fail("id不能为空");
         }
-        if (StringUtils.isBlank(bo.getUserId())) {
+        if (StringUtils.isEmpty(bo.getUserId())) {
             return Result.fail("用户id不能为空");
         }
         Memory memory = memoryService.updateMemory(bo);
@@ -99,7 +99,7 @@ public class MemoryController {
     @GetMapping("query")
     @ApiOperation("查询记忆")
     public Result<Memory> queryMemory(@RequestParam String id) {
-        if (StringUtils.isBlank(id)) {
+        if (StringUtils.isEmpty(id)) {
             return Result.fail("id不能为空");
         }
         Memory memory = memoryService.queryMemory(id);
@@ -109,7 +109,7 @@ public class MemoryController {
     @PostMapping("upload")
     @ApiOperation("上传照片")
     public Result<String> uploadPhoto(@RequestParam String userId, @RequestBody MultipartFile file) throws IOException {
-        if (StringUtils.isBlank(userId)) {
+        if (StringUtils.isEmpty(userId)) {
             return Result.fail("用户id不能为空");
         }
         if (file == null) {
@@ -119,7 +119,7 @@ public class MemoryController {
         String fileSpace = memoryLocation + File.separator + userId;
         // 文件名
         String fileName = file.getOriginalFilename();
-        if (StringUtils.isBlank(fileName)) {
+        if (StringUtils.isEmpty(fileName)) {
             return Result.fail("文件名不能为空");
         }
         String[] split = fileName.split("\\.");
