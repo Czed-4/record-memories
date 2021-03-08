@@ -2,7 +2,7 @@ package top.czed.record.mapper;
 
 import org.springframework.stereotype.Repository;
 import top.czed.record.BaseMapper;
-import top.czed.record.entity.User;
+import top.czed.record.entity.SysUser;
 
 /**
  * @Author Czed
@@ -11,5 +11,5 @@ import top.czed.record.entity.User;
  * @Version 1.0
  */
 @Repository
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper extends BaseMapper<SysUser> {
 }

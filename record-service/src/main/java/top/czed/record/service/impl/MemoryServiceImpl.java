@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 import top.czed.record.bo.MemoryBO;
 import top.czed.record.commons.utils.GenerateIdUtil;
-import top.czed.record.entity.Memory;
+import top.czed.record.entity.BsnMemory;
 import top.czed.record.mapper.MemoryMapper;
 import top.czed.record.service.MemoryService;
 
@@ -32,8 +32,8 @@ public class MemoryServiceImpl implements MemoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS)
-    public PageInfo<Memory> queryAllMemory(String userId, String type, String keyword, Integer current, Integer size) {
-        Example example = new Example(Memory.class);
+    public PageInfo<BsnMemory> queryAllMemory(String userId, String type, String keyword, Integer current, Integer size) {
+        Example example = new Example(BsnMemory.class);
         example.orderBy("createTime").desc();
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("userId", userId)
@@ -48,14 +48,14 @@ public class MemoryServiceImpl implements MemoryService {
                     .orLike("detail", "%" + keyword + "%"));
         }
         PageHelper.startPage(current, size);
-        List<Memory> memories = memoryMapper.selectByExample(example);
+        List<BsnMemory> memories = memoryMapper.selectByExample(example);
         return new PageInfo<>(memories);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Memory addMemory(MemoryBO memoryBO) {
-        Memory entity = new Memory();
+    public BsnMemory addMemory(MemoryBO memoryBO) {
+        BsnMemory entity = new BsnMemory();
         BeanUtils.copyProperties(memoryBO, entity);
         String id = GenerateIdUtil.get();
         entity.setId(id);
@@ -69,10 +69,10 @@ public class MemoryServiceImpl implements MemoryService {
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public int deleteMemory(String id) {
-        Memory entity = new Memory();
+        BsnMemory entity = new BsnMemory();
         entity.setUpdateTime(new Date());
         entity.setIsDelete("Y");
-        Example example = new Example(Memory.class);
+        Example example = new Example(BsnMemory.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("id", id);
         return memoryMapper.updateByExampleSelective(entity,example);
@@ -80,11 +80,11 @@ public class MemoryServiceImpl implements MemoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-    public Memory updateMemory(MemoryBO memoryBO) {
-        Memory entity = new Memory();
+    public BsnMemory updateMemory(MemoryBO memoryBO) {
+        BsnMemory entity = new BsnMemory();
         BeanUtils.copyProperties(memoryBO, entity);
         entity.setUpdateTime(new Date());
-        Example example = new Example(Memory.class);
+        Example example = new Example(BsnMemory.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("id", entity.getId())
                 .andEqualTo("userId", entity.getUserId());
@@ -94,7 +94,7 @@ public class MemoryServiceImpl implements MemoryService {
 
     @Override
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.SUPPORTS)
-    public Memory queryMemory(String id) {
+    public BsnMemory queryMemory(String id) {
         return memoryMapper.selectByPrimaryKey(id);
     }
 

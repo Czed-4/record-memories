@@ -1,5 +1,6 @@
 package top.czed.record.controller;
 
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
@@ -8,17 +9,15 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import top.czed.record.commons.Result;
-import top.czed.record.entity.User;
+import top.czed.record.entity.SysUser;
 import top.czed.record.service.UserService;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author Czed
@@ -32,10 +31,12 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @PostMapping("login")
     @ApiOperation("用户登录")
-    public Result<User> login(@RequestBody User user, HttpServletRequest request, HttpServletResponse response) {
+    public Result<SysUser> login(@RequestBody SysUser user) {
         String username = user.getUsername();
         String password = user.getPassword();
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
@@ -46,18 +47,36 @@ public class LoginController {
         token.setRememberMe(true);
         try {
             subject.login(token);
-            User result = userService.login(username, password);
-            if (result == null) {
-                return Result.fail("账号或密码错误");
+            SysUser result;
+            // 从缓存中查询是否存在用户
+            Object sysUser = redisTemplate.opsForHash().get("SysUser", username);
+            if (StringUtils.isEmpty(sysUser)) {
+                result = userService.login(username, password);
+                if (result == null) {
+                    return Result.fail("账号或密码错误");
+                }
+                // 把用户信息存入缓存
+                redisTemplate.opsForHash().put("SysUser", result.getUsername(), JSON.toJSONString(result));
+            } else {
+                result = JSON.parseObject(sysUser.toString(), SysUser.class);
             }
             result.setPassword(null);
-            result.setRealName(null);
-            result.setEmail(null);
-            result.setPhone(null);
             return Result.success(result, "登录成功");
         } catch (UnknownAccountException | IncorrectCredentialsException e) {
             return Result.fail("账号或密码错误");
         }
+    }
+
+    @PostMapping("update")
+    @ApiOperation("用户修改个人信息")
+    public Result<SysUser> update(@RequestBody SysUser user){
+        String userId = user.getId();
+        if (StringUtils.isEmpty(userId)){
+            return Result.fail("用户ID不能为空");
+        }
+        SysUser result = userService.update(user);
+        redisTemplate.opsForHash().put("SysUser",result.getUsername(),JSON.toJSONString(result));
+        return Result.success(result);
     }
 
     @GetMapping("logout")

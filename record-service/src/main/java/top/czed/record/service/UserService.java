@@ -1,6 +1,6 @@
 package top.czed.record.service;
 
-import top.czed.record.entity.User;
+import top.czed.record.entity.SysUser;
 
 /**
  * @Author Czed
@@ -17,7 +17,15 @@ public interface UserService {
      * @param password 密码
      * @return 登录用户信息
      */
-    User login(String username, String password);
+    SysUser login(String username, String password);
+
+    /**
+     * 修改用户信息
+     *
+     * @param user 修改参数
+     * @return 修改后的用户信息
+     */
+    SysUser update(SysUser user);
 
     /**
      * 通过账号获取用户信息
@@ -25,6 +33,6 @@ public interface UserService {
      * @param username 账号
      * @return 用户信息
      */
-    User getUserByName(String username);
+    SysUser getUserByName(String username);
 
 }
