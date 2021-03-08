@@ -17,8 +17,8 @@ import javax.persistence.Table;
  */
 @Data
 @ApiModel("用户信息实体")
-@Table(name = "u_user")
-public class User {
+@Table(name = "sys_user")
+public class SysUser {
 
     @Id
     @Column(name = "id")

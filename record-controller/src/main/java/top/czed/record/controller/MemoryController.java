@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import top.czed.record.bo.MemoryBO;
 import top.czed.record.commons.PageParameter;
 import top.czed.record.commons.Result;
-import top.czed.record.entity.Memory;
+import top.czed.record.entity.BsnMemory;
 import top.czed.record.service.MemoryService;
 
 import java.io.*;
@@ -43,22 +43,23 @@ public class MemoryController {
 
     @PostMapping("queryAll")
     @ApiOperation("分页查询记忆")
-    public Result<PageInfo<Memory>> queryAllMemory(@RequestBody @Validated PageParameter<Memory> parameter) {
-        Memory entity = parameter.getEntity();
-        if (StringUtils.isEmpty(entity.getUserId())) {
-            return Result.fail("用户id不能为空");
+    public Result<PageInfo<BsnMemory>> queryAllMemory(@RequestBody @Validated PageParameter<BsnMemory> parameter) {
+        BsnMemory entity = parameter.getEntity();
+        String userId = entity.getUserId();
+        if (StringUtils.isEmpty(userId)) {
+            return Result.fail("用户ID不能为空");
         }
         Map<String, String> exParameter = parameter.getExParameter();
-        PageInfo<Memory> pageInfo = memoryService.queryAllMemory(entity.getUserId(), entity.getType(), exParameter.get("keyword"), parameter.getCurrent(), parameter.getSize());
+        PageInfo<BsnMemory> pageInfo = memoryService.queryAllMemory(entity.getUserId(), entity.getType(), exParameter.get("keyword"), parameter.getCurrent(), parameter.getSize());
         return Result.success(pageInfo);
     }
 
     @PostMapping("add")
     @ApiOperation("新增记忆")
-    public Result<Memory> addMemory(@RequestBody @Validated MemoryBO bo) {
+    public Result<BsnMemory> addMemory(@RequestBody @Validated MemoryBO bo) {
         String userId = bo.getUserId();
         if (StringUtils.isEmpty(userId)) {
-            return Result.fail("用户id不能为空");
+            return Result.fail("用户ID不能为空");
         }
         String url = bo.getUrl();
         if (StringUtils.isEmpty(url)) {
@@ -68,15 +69,15 @@ public class MemoryController {
         if (StringUtils.isEmpty(title)) {
             return Result.fail("标题不能为空");
         }
-        Memory memory = memoryService.addMemory(bo);
-        return Result.success(memory, "添加记忆成功");
+        BsnMemory result = memoryService.addMemory(bo);
+        return Result.success(result, "添加记忆成功");
     }
 
     @GetMapping("delete")
     @ApiOperation("删除记忆")
     public Result<Integer> deleteMemory(String id) {
         if (StringUtils.isEmpty(id)) {
-            return Result.fail("id不可为空");
+            return Result.fail("ID不能为空");
         }
         int result = memoryService.deleteMemory(id);
 
@@ -85,32 +86,32 @@ public class MemoryController {
 
     @PostMapping("update")
     @ApiOperation("修改记忆")
-    public Result<Memory> editMemory(@RequestBody @Validated MemoryBO bo) {
+    public Result<BsnMemory> editMemory(@RequestBody @Validated MemoryBO bo) {
         if (StringUtils.isEmpty(bo.getId())) {
-            return Result.fail("id不能为空");
+            return Result.fail("ID不能为空");
         }
         if (StringUtils.isEmpty(bo.getUserId())) {
-            return Result.fail("用户id不能为空");
+            return Result.fail("用户ID不能为空");
         }
-        Memory memory = memoryService.updateMemory(bo);
-        return Result.success(memory, "修改记忆成功");
+        BsnMemory result = memoryService.updateMemory(bo);
+        return Result.success(result, "修改记忆成功");
     }
 
     @GetMapping("query")
     @ApiOperation("查询记忆")
-    public Result<Memory> queryMemory(@RequestParam String id) {
+    public Result<BsnMemory> queryMemory(@RequestParam String id) {
         if (StringUtils.isEmpty(id)) {
-            return Result.fail("id不能为空");
+            return Result.fail("ID不能为空");
         }
-        Memory memory = memoryService.queryMemory(id);
-        return Result.success(memory);
+        BsnMemory result = memoryService.queryMemory(id);
+        return Result.success(result);
     }
 
     @PostMapping("upload")
     @ApiOperation("上传照片")
     public Result<String> uploadPhoto(@RequestParam String userId, @RequestBody MultipartFile file) throws IOException {
         if (StringUtils.isEmpty(userId)) {
-            return Result.fail("用户id不能为空");
+            return Result.fail("用户ID不能为空");
         }
         if (file == null) {
             return Result.fail("图片不能为空");

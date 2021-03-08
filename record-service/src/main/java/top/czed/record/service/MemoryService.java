@@ -2,7 +2,7 @@ package top.czed.record.service;
 
 import com.github.pagehelper.PageInfo;
 import top.czed.record.bo.MemoryBO;
-import top.czed.record.entity.Memory;
+import top.czed.record.entity.BsnMemory;
 
 /**
  * @Author Czed
@@ -22,7 +22,7 @@ public interface MemoryService {
      * @param size    每页数量
      * @return 全部查询结果
      */
-    PageInfo<Memory> queryAllMemory(String userId, String type, String keyword, Integer current, Integer size);
+    PageInfo<BsnMemory> queryAllMemory(String userId, String type, String keyword, Integer current, Integer size);
 
     /**
      * 新增当前用户记忆
@@ -30,7 +30,7 @@ public interface MemoryService {
      * @param memoryBO 记忆参数
      * @return 新增结果
      */
-    Memory addMemory(MemoryBO memoryBO);
+    BsnMemory addMemory(MemoryBO memoryBO);
 
     /**
      * 删除记忆
@@ -46,7 +46,7 @@ public interface MemoryService {
      * @param memoryBO 记忆参数
      * @return 修改结果
      */
-    Memory updateMemory(MemoryBO memoryBO);
+    BsnMemory updateMemory(MemoryBO memoryBO);
 
     /**
      * 查询当前用户记忆
@@ -54,6 +54,6 @@ public interface MemoryService {
      * @param id 记忆id
      * @return 查询结果
      */
-    Memory queryMemory(String id);
+    BsnMemory queryMemory(String id);
 
 }

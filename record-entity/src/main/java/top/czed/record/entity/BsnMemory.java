@@ -16,8 +16,8 @@ import lombok.Data;
  */
 @Data
 @ApiModel("记忆详情实体")
-@Table(name = "m_memory")
-public class Memory {
+@Table(name = "bsn_memory")
+public class BsnMemory {
 
     @Id
     @Column(name = "id")
