@@ -45,10 +45,10 @@ public class BsnMemory {
     private String title;
 
     /**
-     * 记忆类型 1:个人成长 2:情感记忆
+     * 记忆类型 1:个人记忆 2:情感记忆 3:地点记忆 4:其他记忆
      */
     @Column(name = "type")
-    @ApiModelProperty("记忆类型 1:个人成长 2:情感记忆")
+    @ApiModelProperty("记忆类型 1:个人记忆 2:情感记忆 3:地点记忆 4:其他记忆")
     private String type;
 
     /**
