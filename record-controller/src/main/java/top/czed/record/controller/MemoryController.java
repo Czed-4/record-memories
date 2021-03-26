@@ -3,6 +3,7 @@ package top.czed.record.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -128,19 +129,29 @@ public class MemoryController {
         String suffix = split[split.length - 1];
         // 自定义新名称
         String date = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        // 缩略图文件名
         String fileNewName = "memory-" + date + "." + suffix;
-        // 最终保存路径
-        String finalFileSpace = fileSpace + File.separator + fileNewName;
+        // 原图文件名
+        String fileNewNameMax = "memory-" + date + "-max." + suffix;
+        // 原图最终保存路径
+        String finalFileSpace = fileSpace + File.separator + fileNewNameMax;
         File outFile = new File(finalFileSpace);
         if (!outFile.exists()) {
             // 创建文件夹
             outFile.getParentFile().mkdirs();
         }
-        InputStream inputStream = file.getInputStream();
+        // 存储原图
         FileOutputStream fileOutputStream = new FileOutputStream(outFile);
-        IOUtils.copy(inputStream, fileOutputStream);
+        IOUtils.copy(file.getInputStream(), fileOutputStream);
         fileOutputStream.flush();
         fileOutputStream.close();
+        // 存储缩略图
+        Thumbnails.of(file.getInputStream()).size(190, 247)
+                  .keepAspectRatio(false)
+                  .allowOverwrite(true)
+                  .toFile(new File(fileSpace + File.separator + fileNewName));
+
+        // 返回原图路径
         String result = backHost + File.separator + userId + File.separator + fileNewName;
         return Result.success(result, "上传成功");
     }
